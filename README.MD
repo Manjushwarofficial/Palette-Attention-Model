@@ -3,7 +3,8 @@
 A memory-based deep learning system for fashion generation using RNNs, LSTMs, and GRUs with conditional spatial attention — built without Transformers.
 
 ## Demo Screenshots
-demo_image_1.png
+![Alt Text](https://drive.google.com/file/d/1sYqVF-oF8Wp60Pc3UcXYlol2k-W3p6qd/view?usp=share_link)
+
 
 ## Overview
 
