@@ -60,36 +60,38 @@ Sequential outfit output     Sketch-to-outfit synthesis
 
 ## Project Structure
 
+```
 palette-attention-model/
 │
 ├── 📁 data/
-│   ├── dataset.ipynb          ✅ PyTorch Dataset
-│   └── preprocess.ipynb       ✅ Edge map extraction
+│   ├── dataset.ipynb          # PyTorch Dataset + DataLoader
+│   └── preprocess.ipynb       # Edge map extraction, normalization
 │
 ├── 📁 models/
-│   ├── encoder.ipynb          ✅ CNN encoder
-│   ├── embedding.ipynb        ✅ Token & style embeddings
-│   ├── lstm_core.ipynb        ✅ LSTM/GRU cores
-│   ├── attention.ipynb        ✅ Spatial attention
-│   └── decoder.ipynb          ✅ Decoders
+│   ├── encoder.ipynb          # CNN encoder (ResNet-18 backbone)
+│   ├── embedding.ipynb        # Token + conditional style embeddings
+│   ├── lstm_core.ipynb        # Stacked LSTM/GRU with hidden state management
+│   ├── attention.ipynb        # Conditional spatial attention module
+│   └── decoder.ipynb          # Spatial attention decoder + output heads
 │
 ├── 📁 notebooks/
-│   ├── 01_data_exploration.ipynb      ✅ Data analysis
-│   ├── 02_model_architecture.ipynb    ✅ Architecture viz
-│   ├── 03_training_analysis.ipynb     ✅ Training metrics
-│   └── 04_results_visualization.ipynb ✅ Results viz
+│   ├── 01_data_exploration.ipynb      # Data loading and preprocessing
+│   ├── 02_model_architecture.ipynb    # Architecture visualization
+│   ├── 03_training_analysis.ipynb     # Loss curves and metrics
+│   └── 04_results_visualization.ipynb # Attention maps and outputs
 │
 ├── 📁 configs/
-│   └── default.yaml           ✅ Configuration
+│   └── default.yaml           # Hyperparameters and configuration
 │
-├── train.ipynb                ✅ Training pipeline
-├── evaluate.ipynb             ✅ Evaluation metrics
-├── demo.ipynb                 ✅ Gradio interface
-├── main.ipynb                 ✅ Main model
-├── utils.ipynb                ✅ Utility functions
-├── requirements.txt           ✅ Dependencies
-├── INSTALLATION.md            ✅ Setup guide
-└── README.md                  ✅ Documentation
+├── train.ipynb                # Training loop, loss functions, gradient clipping
+├── evaluate.ipynb             # Evaluation, attention map visualization, FID
+├── demo.ipynb                 # Gradio interface
+├── main.ipynb                 # Main PaletteAttentionModel orchestration
+├── utils.ipynb                # Utility functions and helpers
+├── requirements.txt           # Python dependencies
+├── INSTALLATION.md            # Installation and setup guide
+└── README.md                  # Project documentation
+```
 
 
 ## Getting Started
@@ -116,17 +118,21 @@ pip install torch torchvision pillow wandb gradio pyyaml
 
 Download a subset of [DeepFashion](http://mmlab.ie.cuhk.edu.hk/projects/DeepFashion.html) and place it under `data/raw/`. Start with 5–10k samples for initial training runs.
 
+Run the preprocessing notebook:
+- Open `data/preprocess.ipynb` and execute cells to generate edge maps and silhouettes
+- Or use the command line:
 ```bash
-python data/preprocess.py --input data/raw/ --output data/processed/
+jupyter nbconvert --to script data/preprocess.ipynb --output preprocess.py && python preprocess.py --input data/raw/ --output data/processed/
 ```
 
 ### Training
 
+Open and run `train.ipynb` for interactive training, or:
 ```bash
-python train.py --config configs/default.yaml
+jupyter nbconvert --to script train.ipynb --output train.py && python train.py --config configs/default.yaml
 ```
 
-Key config options:
+Key config options in `configs/default.yaml`:
 
 ```yaml
 model:
@@ -146,8 +152,9 @@ Losses are logged to Weights & Biases. Sample outputs are saved every 500 steps.
 
 ### Demo
 
+Open `demo.ipynb` to launch Gradio interface, or:
 ```bash
-python demo.py
+jupyter nbconvert --to script demo.ipynb --output demo.py && python demo.py
 ```
 
 Launches a local Gradio interface for sketch input → outfit generation.
