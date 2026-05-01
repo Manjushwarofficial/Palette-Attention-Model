@@ -1,0 +1,98 @@
+"""
+Default configuration for Palette Attention Model training and inference.
+"""
+
+# Model Architecture
+model:
+  encoder:
+    backbone: 'resnet18'
+    pretrained: true
+    freeze_backbone: true
+    output_channels: 256
+  
+  embedding:
+    vocab_size: 256
+    token_embedding_dim: 128
+    num_categories: 50
+    num_attributes: 100
+    max_seq_length: 100
+  
+  lstm_core:
+    input_size: 256
+    hidden_size: 256
+    num_layers: 2
+    dropout: 0.2
+    rnn_type: 'lstm'  # or 'gru'
+  
+  attention:
+    attention_channels: 64
+    use_silhouette_mask: true
+  
+  decoder:
+    hidden_channels: 128
+    output_channels: 3
+
+# Training Configuration
+training:
+  batch_size: 32
+  epochs: 50
+  lr: 0.001
+  betas: [0.9, 0.999]
+  weight_decay: 0.00001
+  grad_clip: 1.0
+  warmup_steps: 500
+  
+  # Loss weights
+  loss_weights:
+    reconstruction: 1.0
+    token_prediction: 0.5
+    perceptual: 0.1
+  
+  # Scheduler
+  scheduler:
+    type: 'cosine'
+    T_max: 50
+    eta_min: 0.000001
+
+# Data Configuration
+data:
+  img_dir: 'data/processed/images'
+  sketch_dir: 'data/processed/edges'
+  silhouette_dir: 'data/processed/silhouettes'
+  
+  train_split: 0.8
+  val_split: 0.1
+  test_split: 0.1
+  
+  num_workers: 4
+  pin_memory: true
+  
+  # Preprocessing
+  image_size: 224
+  normalize:
+    mean: [0.485, 0.456, 0.406]
+    std: [0.229, 0.224, 0.225]
+
+# Evaluation Configuration
+evaluation:
+  checkpoint_dir: 'checkpoints'
+  save_interval: 500
+  eval_interval: 1
+  
+  metrics:
+    compute_fid: true
+    compute_perceptual: true
+    visualize_attention: true
+
+# Logging and Monitoring
+logging:
+  log_interval: 100
+  save_samples_interval: 500
+  use_wandb: false
+  wandb_project: 'palette-attention'
+  output_dir: 'outputs'
+
+# Device Configuration
+device:
+  cuda: true
+  device_id: 0
