@@ -38,6 +38,24 @@ Sequential outfit output     Sketch-to-outfit synthesis
 (token sequence)             (pixel-level reconstruction)
 ```
 
+### Results and generations:
+Generated Images:
+![Demo Screenshot](assets/generations.jpeg)
+
+Attention Heatmap:
+![Demo Screenshot](assets/attention_1.png)
+![Demo Screenshot](assets/attention_2.png)
+
+Sketch Column Generations
+![Demo Screenshot](assets/sketch_column_creation.png)
+
+Training Curves:
+![Demo Screenshot](assets/training_curves.png)
+
+Dataset used:
+![Demo Screenshot](assets/dataset_used.png)
+
+
 ### Key design decisions
 
 - **No Transformers** — recurrent units (LSTM/GRU) are used exclusively for sequential memory
